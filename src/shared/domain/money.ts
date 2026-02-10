@@ -1,19 +1,25 @@
+import { ValidationError } from "../errors/app-errors.ts";
+import { err, ok, type Result } from "../types/result.ts";
+
 export class Money {
   private constructor(
     readonly amount: number,
     readonly currency: string,
   ) {}
 
-  static create(amount: number, currency: string): Money {
+  static create(
+    amount: number,
+    currency: string,
+  ): Result<Money, ValidationError> {
     if (amount < 0) {
-      throw new Error("Amount cannot be negative");
+      return err(new ValidationError("Amount cannot be negative"));
     }
-    return new Money(amount, currency);
+    return ok(new Money(amount, currency));
   }
 
-  add(other: Money): Money {
+  add(other: Money): Result<Money, ValidationError> {
     this.assertSameCurrency(other);
-    return new Money(this.amount + other.amount, this.currency);
+    return ok(new Money(this.amount + other.amount, this.currency));
   }
 
   format(): string {
