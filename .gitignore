@@ -11,3 +11,4 @@ dist/
 # IDE
 .idea/
 *.swp
+.vercel

@@ -5,6 +5,7 @@ import {
   getCategoryDisplayName,
   type ExpenseCategory,
 } from "../domain/category.ts";
+import { escape } from "../../shared/utils/telegram.ts";
 
 export interface ExpenseMessage {
   text: string;
@@ -19,8 +20,10 @@ function formatExpense(expense: Expense): string {
     month: "short",
     day: "numeric",
   });
-  const note = snap.description ? ` · _${snap.description}_` : "";
-  return `${emoji} *${name}* — ${snap.amount.format()} — ${date}${note}`;
+  const note = snap.description
+    ? ` · _${escape(snap.description)}_`
+    : "";
+  return `${emoji} *${escape(name)}* — ${escape(snap.amount.format())} — ${escape(date)}${note}`;
 }
 
 export class ExpensePresenter {
