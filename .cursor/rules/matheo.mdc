@@ -1,0 +1,21 @@
+---
+description: Matheo project context — Telegram expense bot, DDD/Clean Architecture, UX principles
+alwaysApply: true
+---
+
+# Matheo — Project Rule
+
+**What it is**: Personal finance Telegram bot (track expenses, upload receipts with OCR, view summaries).
+
+**Tech**: Node.js + TypeScript, grammY, Vercel (serverless), Supabase (PostgreSQL + storage), Tesseract/OCR.
+
+**Architecture**: DDD + Clean Architecture with **screaming folder structure**. Top-level folders are domains: `expense/`, `receipt/`, `report/`, `budget/`, `user/`. Inside each: `domain/` (entities, value objects, interfaces), `application/` (use cases), `infrastructure/` (Supabase repos, presenters). Bot wiring lives in `bot/` (handlers, conversations, keyboards). Shared types in `shared/` (Money, Result, AppError).
+
+**Principles**:
+- **Minimal typing** — prefer buttons/inline keyboards over text input.
+- **Conversational flows** — guided step-by-step; every action has confirmation with **Edit / Undo**.
+- **Result type** for expected failures; presenters format domain output for Telegram (separate from business logic).
+
+**Docs**: `docs/requirements.md`, `docs/architecture.md`.
+
+When adding features, follow the existing layer boundaries and keep domain free of framework/DB imports.

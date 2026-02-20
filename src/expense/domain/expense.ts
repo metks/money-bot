@@ -44,6 +44,18 @@ export class Expense {
     return new Expense(props);
   }
 
+  toSnapshot(): Readonly<ExpenseProps> {
+    return { ...this.props };
+  }
+
+  matches(query: string): boolean {
+    const q = query.toLowerCase().trim();
+    const inCategory = this.props.category.toLowerCase().includes(q);
+    const inDescription =
+      this.props.description?.toLowerCase().includes(q) ?? false;
+    return inCategory || inDescription;
+  }
+
   updateCategory(category: string): Expense {
     return new Expense({
       ...this.props,
