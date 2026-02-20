@@ -59,7 +59,7 @@ expenseHandler.on("message:text", async (ctx) => {
     amount: amount.amount,
     currency: amount.currency,
     category,
-    description,
+    ...(description !== undefined ? { description } : {}),
   });
 
   if (!result.ok) {
